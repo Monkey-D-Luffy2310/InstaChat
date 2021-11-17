@@ -14,7 +14,6 @@
 <body>
 	<div id="root"></div>
 	<script src="{{ asset('js/app.js') }}" defer></script>
-	<h1>Hello world</h1>
 </body>
 
 </html>
