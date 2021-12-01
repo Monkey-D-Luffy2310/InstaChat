@@ -163,7 +163,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ mb: 1 }} >
         <Toolbar>
           <IconButton
             edge="start"
@@ -174,7 +174,7 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            onMoon
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

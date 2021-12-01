@@ -4,7 +4,7 @@ import Login from './Auth/LoginComponent/Login';
 import DashboardNabar from './shares/layout/DashboardNabar';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './shares/theme';
-import RecipeReviewCard from './app/post';
+import PostGrid from './app/post/PostGrid';
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
              <div className="container">
                 <div className="row justify-content-center">
                     <DashboardNabar/>
-                    <RecipeReviewCard/>
+                    <PostGrid/>
                 </div>
             </div>
             

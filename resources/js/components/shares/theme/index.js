@@ -10,7 +10,7 @@ const theme = createTheme({
     },
     primary: {
       contrastText: '#ffffff',
-      main: '#b5f3f0 !important',
+      main: '#54ad62 !important',
     },
 
     text: {
