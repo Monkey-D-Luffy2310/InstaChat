@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use App\User;
 
 class AuthController extends Controller
@@ -37,9 +38,9 @@ class AuthController extends Controller
 
         $user = User::where('username', $fields['username'])->first();
         if (!$user || !Hash::check($fields['password'], $user->password)) {
-            return response([
-                'message' => 'Bas creds'
-            ], 401);
+            throw ValidationException::withMessages([
+                'username' => ['The provided credentials are incorrect.'],
+            ]);
         }
 
         $token = $user->createToken('myapptoken')->plainTextToken;

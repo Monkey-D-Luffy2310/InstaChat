@@ -21,17 +21,25 @@ use App\User;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//authen route
 Route::post('/register', 'AuthController@register');
-Route::get('/posts', 'PostController@index');
-Route::get('/posts/{id}', 'PostController@show');
 Route::post('/login', 'AuthController@login');
 
+//post route
+Route::get('/posts', 'PostController@index');
+Route::get('/posts/{id}', 'PostController@show');
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    //user route
     Route::get('/users', 'UserController@index');
-    Route::post('/posts', 'PostController@store');
-    Route::put('/posts', 'PostController@update');
-    Route::delete('/posts', 'PostController@destroy');
+
     Route::post('/logout', 'AuthController@logout');
+
+    //post route
+    Route::post('/posts', 'PostController@store');
+    Route::put('/posts/{id}', 'PostController@update');
+    Route::delete('/posts/{id}', 'PostController@destroy');
 });
 
 // Route::resource('posts', 'PostController');
