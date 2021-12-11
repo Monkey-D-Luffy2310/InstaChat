@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/longngu',function(){
+    return view(" im here");
+});
 
 Auth::routes();
 
