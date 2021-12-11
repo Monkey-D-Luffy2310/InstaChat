@@ -4,32 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class LikedPost extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'title',
-        'content',
-        'user_id'
+    protected $fillable= [
+        'user_id', 'post_id'
     ];
 
     /**
-     * Get the post that owns the user
+     * Get the like that owns the user
      */
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    /**
-     * Get the likes for the post
+     /**
+     * Get the like that owns the post
      */
-    public function likes()
+    public function post()
     {
-        return $this->hasMany('App\Models\LikedPost');
+        return $this->belongsTo('App\Models\Post');
     }
 }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
+use App\Models\LikedPost;
+use Illuminate\Support\Facades\DB;
 
-class PostController extends Controller
+class LikedPostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::all();
+        return LikedPost::all();
     }
 
     /**
@@ -25,14 +26,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $requestData = $request->all();
+        $user_id = auth()->user()->id;
+        $requestData['user_id'] = $user_id;
         $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'user_id' => 'required',
-            'photoURL' => 'required'
+            'post_id' => 'required'
         ]);
 
-        return Post::create($request->all());
+        return LikedPost::create($requestData);
     }
 
     /**
@@ -43,7 +44,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return Post::find($id);
+        $liked_post = LikedPost::find($id);
+        if ($liked_post) return $liked_post->post;
+        return "Not found";
     }
 
     /**
@@ -55,9 +58,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
-        $post->update($request->all());
-        return $post;
+        //
     }
 
     /**
@@ -66,8 +67,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($post_id)
     {
-        return Post::destroy($id);
+        $user_id = auth()->user()->id;
+        return DB::table('liked_posts')->where([
+            ['user_id', $user_id],
+            ['post_id', $post_id],
+        ])->delete();
+    }
+
+    public function liked_user($user_id)
+    {
+        return DB::table('liked_posts')->where('user_id', $user_id)->get();
+    }
+
+    public function liked_post($post_id)
+    {
+        return DB::table('liked_posts')->where('post_id', $post_id)->get();
     }
 }

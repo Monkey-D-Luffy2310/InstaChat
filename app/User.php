@@ -45,4 +45,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Post');
     }
+
+    /**
+     * Get the likes for the user
+     */
+    public function likes()
+    {
+        return $this->hasMany('App\Models\LikedPost');
+    }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LikedPostController;
 use App\User;
 
 /*
@@ -33,6 +34,12 @@ Route::post('/login', 'AuthController@login');
 Route::get('/posts', 'PostController@index');
 Route::get('/posts/{id}', 'PostController@show');
 
+//like post route
+Route::get('/liked_post', "LikedPostController@index");
+Route::get('/liked_post/{id}', "LikedPostController@show");
+Route::get('/liked_post/user/{id}', "LikedPostController@liked_user");
+Route::get('/liked_post/post/{id}', "LikedPostController@liked_post");
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //user route
     Route::get('/users', 'UserController@index');
@@ -43,6 +50,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/posts', 'PostController@store');
     Route::put('/posts/{id}', 'PostController@update');
     Route::delete('/posts/{id}', 'PostController@destroy');
-});
 
-// Route::resource('posts', 'PostController');
+    //like post route
+    Route::post('/liked_post', "LikedPostController@store");
+    Route::delete('/liked_post/{post_id}', "LikedPostController@destroy");
+});
