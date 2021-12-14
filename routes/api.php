@@ -23,32 +23,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//authen route
+//authen api
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
 
-//post route
+//user api
+Route::get('/users/{id}', 'UserController@show');
+
+//post api
 Route::get('/posts', 'PostController@index');
 Route::get('/posts/{id}', 'PostController@show');
 
-//like post route
+//like post api
 Route::get('/liked_post', "LikedPostController@index");
 Route::get('/liked_post/{id}', "LikedPostController@show");
 Route::get('/liked_post/user/{id}', "LikedPostController@liked_user");
 Route::get('/liked_post/post/{id}', "LikedPostController@liked_post");
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    //user route
+    //user api
     Route::get('/users', 'UserController@index');
 
     Route::post('/logout', 'AuthController@logout');
 
-    //post route
+    //post api
     Route::post('/posts', 'PostController@store');
     Route::put('/posts/{id}', 'PostController@update');
     Route::delete('/posts/{id}', 'PostController@destroy');
 
-    //like post route
+    //like post api
     Route::post('/liked_post', "LikedPostController@store");
     Route::delete('/liked_post/{post_id}', "LikedPostController@destroy");
 });

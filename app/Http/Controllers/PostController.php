@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Requests\PostFormRequest;
 
 class PostController extends Controller
 {
@@ -14,7 +15,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::all();
+        return response()->json([
+            'data' => Post::all(),
+            'success' => true
+        ]);
     }
 
     /**
@@ -23,16 +27,12 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostFormRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'user_id' => 'required',
-            'photoURL' => 'required'
+        return response()->json([
+            'data' => Post::create($request->all()),
+            'success' => true
         ]);
-
-        return Post::create($request->all());
     }
 
     /**
@@ -43,7 +43,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return Post::find($id);
+        return response()->json([
+            'data' => Post::find($id),
+            'success' => true
+        ]);
     }
 
     /**
@@ -57,7 +60,10 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->update($request->all());
-        return $post;
+        return response()->json([
+            'data' => $post,
+            'success' => true
+        ]);
     }
 
     /**
@@ -68,6 +74,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        return Post::destroy($id);
+        return response()->json([
+            'data' => Post::destroy($id),
+            'success' => true
+        ]);
     }
 }
