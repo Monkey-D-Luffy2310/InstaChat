@@ -2,11 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LikedPostController;
-use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +35,12 @@ Route::get('/liked_post/{id}', "LikedPostController@show");
 Route::get('/liked_post/user/{id}', "LikedPostController@liked_user");
 Route::get('/liked_post/post/{id}', "LikedPostController@liked_post");
 
+//comment post api
+Route::get('/comments', 'CommentController@index');
+Route::get('/comments/{id}', 'CommentController@show');
+Route::get('/comments/user/{user_id}', 'CommentController@get_comment_by_user');
+Route::get('/comments/post/{post_id}', 'CommentController@get_comment_by_post');
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //user api
     Route::get('/users', 'UserController@index');
@@ -54,4 +55,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //like post api
     Route::post('/liked_post', "LikedPostController@store");
     Route::delete('/liked_post/{post_id}', "LikedPostController@destroy");
+
+    //comment post api
+    Route::post('/comments', 'CommentController@store');
+    Route::put('/comments/{id}', 'CommentController@update');
+    Route::delete('/comments/{id}', 'CommentController@destroy');
 });

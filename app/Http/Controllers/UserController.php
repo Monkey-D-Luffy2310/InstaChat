@@ -10,16 +10,16 @@ class UserController extends Controller
     public function index()
     {
         return response()->json([
+            'data' =>  User::all(),
             'success' => true,
-            'data' =>  User::all()
         ]);
     }
 
     public function show($id)
     {
         return response()->json([
+            'data' => User::find($id),
             'success' => true,
-            'data' => User::find($id)
         ]);
     }
 }

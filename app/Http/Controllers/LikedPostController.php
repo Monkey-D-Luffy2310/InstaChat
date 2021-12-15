@@ -70,19 +70,31 @@ class LikedPostController extends Controller
     public function destroy($post_id)
     {
         $user_id = auth()->user()->id;
-        return DB::table('liked_posts')->where([
+        $liked_post = DB::table('liked_posts')->where([
             ['user_id', $user_id],
             ['post_id', $post_id],
         ])->delete();
+        return response()->json([
+            'data' => $liked_post,
+            'success' => true,
+        ]);
     }
 
     public function liked_user($user_id)
     {
-        return DB::table('liked_posts')->where('user_id', $user_id)->get();
+        $liked_post = DB::table('liked_posts')->where('user_id', $user_id)->get();
+        return response()->json([
+            'data' => $liked_post,
+            'success' => true,
+        ]);
     }
 
     public function liked_post($post_id)
     {
-        return DB::table('liked_posts')->where('post_id', $post_id)->get();
+        $liked_post = DB::table('liked_posts')->where('post_id', $post_id)->get();
+        return response()->json([
+            'data' => $liked_post,
+            'success' => true,
+        ]);
     }
 }

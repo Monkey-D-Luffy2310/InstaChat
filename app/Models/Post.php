@@ -32,4 +32,11 @@ class Post extends Model
     {
         return $this->hasMany('App\Models\LikedPost');
     }
+
+    /**
+    * Get the likes for the post
+    */
+    public function comments() {
+        return $this->hasMany('App\Models\Comment');
+    }
 }
