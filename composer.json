@@ -15,7 +15,8 @@
         "laravel/framework": "^7.29",
         "laravel/sanctum": "^2.12",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "2.4"
+        "laravel/ui": "2.4",
+        "pusher/pusher-php-server": "4.x"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "2.8",

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\AuthFormRequest;
 use App\User;
+use App\Events\MessageNotification;
 
 class AuthController extends Controller
 {
@@ -44,6 +45,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
+        event(new MessageNotification('Hello'));
         return response()->json([
             'data' => $respone,
             'success' => true

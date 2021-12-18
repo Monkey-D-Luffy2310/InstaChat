@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Events\MessageNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,11 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/longngu',function(){
-    return view(" im here");
-});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', function () {
+    event(new MessageNotification('Someone'));
+    return view('test');
+});

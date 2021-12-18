@@ -65,22 +65,30 @@ class CommentController extends Controller
     {
         $user_id = auth()->user()->id;
         $comment = Comment::find($id);
-        if ($comment->user->id != $user_id) {
+        if ($comment) {
+            if ($comment->user->id != $user_id) {
+                return response()->json([
+                    'message' => 'Comment not belong to user',
+                    'success' => false,
+                ]);
+            }
+
+            $request->validate([
+                'comment' => 'required',
+            ]);
+            $comment->update($request->all());
+
             return response()->json([
-                'message' => 'Comment not belong to user',
-                'success' => false,
+                'data' => $comment,
+                'success' => true
             ]);
         }
-
-        $request->validate([
-            'comment' => 'required',
-        ]);
-        $comment->update($request->all());
-
-        return response()->json([
-            'data' => $comment,
-            'success' => true
-        ]);
+        else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Not found comment id'
+            ]);
+        }
     }
 
     /**
@@ -116,7 +124,7 @@ class CommentController extends Controller
     }
 
     public function get_comment_by_post($post_id) {
-        $comments = DB::table('comments')->where('post_id', $post_id)->get();
+        DB::table('comments')->where('post_id', $post_id)->get();
         return response()->json([
             'success' => true,
         ]);
