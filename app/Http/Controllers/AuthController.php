@@ -45,7 +45,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        event(new MessageNotification('Hello'));
+        broadcast(new MessageNotification('Hello'));
         return response()->json([
             'data' => $respone,
             'success' => true

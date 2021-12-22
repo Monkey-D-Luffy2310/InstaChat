@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Requests\PostFormRequest;
+use App\Events\NewPost;
 
 class PostController extends Controller
 {
@@ -29,8 +30,10 @@ class PostController extends Controller
      */
     public function store(PostFormRequest $request)
     {
+        $post = Post::create($request->all());
+        broadcast(new NewPost($post));
         return response()->json([
-            'data' => Post::create($request->all()),
+            'data' => $post,
             'success' => true
         ]);
     }

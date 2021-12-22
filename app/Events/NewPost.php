@@ -9,19 +9,21 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Post;
 
-class MessageNotification implements ShouldBroadcast
+class NewPost implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $message;
+
+    public $post;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct(Post $post)
     {
-        $this->message = $message;
+        $this->post = $post;
     }
 
     /**
@@ -31,19 +33,19 @@ class MessageNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('nofication');
+        return new PrivateChannel('post-nofication.' . $this->post->user->id);
     }
 
     public function broadcastWith()
     {
         return [
-            'message' => $this->message,
+            'data' => $this->post,
             'success' => true
         ];
     }
 
     public function broadcastAs()
     {
-        return 'message';
+        return 'post';
     }
 }

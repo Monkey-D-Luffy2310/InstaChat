@@ -65,7 +65,6 @@
     </script>
 
     <script type="text/javascript">
-    console.log(11);
         Pusher.logToConsole = true;
 
         var pusher = new Pusher("2d56f7896a4df75110d7", {
@@ -73,10 +72,10 @@
         });
 
         var channel = pusher.subscribe("nofication");
-          channel.bind("MessageNotification", function(data) {
+        channel.bind("message", function(data) {
             alert(data);
             console.log(data);
-          });
+        });
     </script>
 </body>
 
