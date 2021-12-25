@@ -38,8 +38,8 @@ Route::get('/liked_post/post/{id}', "LikedPostController@liked_post");
 //comment post api
 Route::get('/comments', 'CommentController@index');
 Route::get('/comments/{id}', 'CommentController@show');
-Route::get('/comments/user/{user_id}', 'CommentController@get_comment_by_user');
-Route::get('/comments/post/{post_id}', 'CommentController@get_comment_by_post');
+Route::get('/comments/user/{user_id}', 'CommentController@getCommentByUser');
+Route::get('/comments/post/{post_id}', 'CommentController@getCommentByPost');
 
 //room api
 Route::get('/rooms', 'RoomController@index');

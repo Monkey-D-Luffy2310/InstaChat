@@ -23,6 +23,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', function () {
-    event(new MessageNotification('Someone'));
     return view('test');
 });

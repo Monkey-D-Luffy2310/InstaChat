@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
-use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -115,17 +114,21 @@ class CommentController extends Controller
         ]);
     }
 
-    public function get_comment_by_user($user_id) {
-        $comments = DB::table('comments')->where('user_id', $user_id)->get();
+    public function getCommentByUser($user_id) {
+        //$comments = DB::table('comments')->where('user_id', $user_id)->get();
+        $comments = Comment::with(['user', 'post'])->where('user_id', $user_id)->get();
+        
         return response()->json([
             'data' => $comments,
             'success' => true,
         ]);
     }
 
-    public function get_comment_by_post($post_id) {
-        DB::table('comments')->where('post_id', $post_id)->get();
+    public function getCommentByPost($post_id) {
+        $comments = Comment::with(['user', 'post'])->where('post_id', $post_id)->get();
+
         return response()->json([
+            'data' => $comments,
             'success' => true,
         ]);
     }

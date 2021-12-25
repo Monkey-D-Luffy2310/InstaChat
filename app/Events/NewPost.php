@@ -33,13 +33,13 @@ class NewPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('post-nofication.' . $this->post->user->id);
+        return new Channel('post-nofication');
     }
 
     public function broadcastWith()
     {
         return [
-            'data' => $this->post,
+            'data' => $this->post->load('user'),
             'success' => true
         ];
     }

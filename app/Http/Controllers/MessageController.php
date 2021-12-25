@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
-use App\User;
-use App\Models\Room;
-use Illuminate\Support\Facades\DB;
+use App\Events\MessageNotification;
 
 class MessageController extends Controller
 {
@@ -21,11 +19,12 @@ class MessageController extends Controller
         $requestData = $request->all();
         $user_id = auth()->user()->id;
         $requestData['user_id'] = $user_id;
-        $message = Message::create($requestData);
         $request->validate([
             'message' => 'required',
             'room_id' => 'required'
         ]);
+        $message = Message::create($requestData);
+        broadcast(new MessageNotification($message));
         return response()->json([
             'data' => $message,
             'success' => true
@@ -64,7 +63,7 @@ class MessageController extends Controller
     }
 
     public function getMessageByUser($user_id) {
-        $message = DB::table('messages')->where('user_id', $user_id)->get();
+        $message = Message::with(['user', 'room'])->where('user_id', $user_id)->get();
 
         return response()->json([
             'data' => $message,
@@ -73,7 +72,7 @@ class MessageController extends Controller
     }
 
     public function getMessageByRoom($room_id) {
-        $message = DB::table('messages')->where('room_id', $room_id)->get();
+        $message = Message::with(['user', 'room'])->where('room_id', $room_id)->get();
 
         return response()->json([
             'data' => $message,

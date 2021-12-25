@@ -31,7 +31,7 @@ class PostController extends Controller
     public function store(PostFormRequest $request)
     {
         $post = Post::create($request->all());
-        broadcast(new NewPost($post));
+        broadcast(new NewPost($post))->toOthers();
         return response()->json([
             'data' => $post,
             'success' => true

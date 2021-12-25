@@ -70,7 +70,8 @@ class LikedPostController extends Controller
 
     public function liked_user($user_id)
     {
-        $liked_post = DB::table('liked_posts')->where('user_id', $user_id)->get();
+        $liked_post = LikedPost::with(['user', 'post'])->where('user_id', $user_id)->get();
+
         return response()->json([
             'data' => $liked_post,
             'success' => true,
@@ -79,7 +80,8 @@ class LikedPostController extends Controller
 
     public function liked_post($post_id)
     {
-        $liked_post = DB::table('liked_posts')->where('post_id', $post_id)->get();
+        $liked_post = LikedPost::with(['user', 'post'])->where('post_id', $post_id)->get();
+
         return response()->json([
             'data' => $liked_post,
             'success' => true,

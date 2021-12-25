@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Message;
 
 class MessageNotification implements ShouldBroadcast
 {
@@ -19,7 +20,7 @@ class MessageNotification implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->message = $message;
     }
@@ -31,13 +32,13 @@ class MessageNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('nofication');
+        return new Channel('rooms');
     }
 
     public function broadcastWith()
     {
         return [
-            'message' => $this->message,
+            'message' => $this->message->load('user', 'room'),
             'success' => true
         ];
     }

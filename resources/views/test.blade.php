@@ -65,16 +65,20 @@
     </script>
 
     <script type="text/javascript">
-        Pusher.logToConsole = true;
 
-        var pusher = new Pusher("2d56f7896a4df75110d7", {
-            cluster: "ap1",
-        });
+        window.addEventListener('DOMContentLoaded', function() {
+            
+            Pusher.logToConsole = true;
 
-        var channel = pusher.subscribe("nofication");
-        channel.bind("message", function(data) {
-            alert(data);
-            console.log(data);
+            var pusher = new Pusher("2d56f7896a4df75110d7", {
+                cluster: "ap1",
+            });
+
+            var channel = pusher.subscribe("rooms");
+            channel.bind("message", function(data) {
+                alert(data);
+                console.log(data);
+            });
         });
     </script>
 </body>
