@@ -61,4 +61,20 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Comment');
     }
+
+    /**
+     * Get the room for the user is owner
+     */
+    public function rooms()
+    {
+        return $this->belongsToMany('App\Models\Room');
+    }
+
+    /**
+     * Get the room for the user is owner
+     */
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message');
+    }
 }

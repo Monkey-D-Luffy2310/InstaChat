@@ -6,8 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PostFormRequest extends FormRequest
+class RoomFormRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,9 +26,8 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'content' => 'required',
-            'user_id' => 'required',
-            'photoURL' => 'required',
+            'name' => 'required',
+            'description' => 'required',
         ];
     }
 

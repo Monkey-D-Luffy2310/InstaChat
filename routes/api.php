@@ -41,6 +41,18 @@ Route::get('/comments/{id}', 'CommentController@show');
 Route::get('/comments/user/{user_id}', 'CommentController@get_comment_by_user');
 Route::get('/comments/post/{post_id}', 'CommentController@get_comment_by_post');
 
+//room api
+Route::get('/rooms', 'RoomController@index');
+Route::get('/rooms/{id}', 'RoomController@show');
+
+//room user api
+Route::get('/room_user/user/{user_id}', 'RoomUserController@getRoomByUser');
+Route::get('/room_user/room/{room_id}', 'RoomUserController@getUserByRoom');
+
+//message api
+Route::get('/messages/user/{user_id}', 'MessageController@getMessageByUser');
+Route::get('/messages/room/{room_id}', 'MessageController@getMessageByRoom');
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //user api
     Route::get('/users', 'UserController@index');
@@ -60,4 +72,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/comments', 'CommentController@store');
     Route::put('/comments/{id}', 'CommentController@update');
     Route::delete('/comments/{id}', 'CommentController@destroy');
+
+    //room api
+    Route::post('/rooms', 'RoomController@store');
+    Route::put('/rooms/{id}', 'RoomController@update');
+    Route::delete('/rooms/{id}', 'RoomController@destroy');
+
+    //room user api
+    Route::post('/room_user/{room_id}', 'RoomUserController@store');
+
+    //message api
+    Route::post('/messages', 'MessageController@store');
+    Route::put('/messages/{id}', 'MessageController@update');
+    Route::delete('/messages/{id}', 'MessageController@destroy');
 });

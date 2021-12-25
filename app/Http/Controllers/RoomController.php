@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Post;
-use App\Http\Requests\PostFormRequest;
-use App\Events\NewPost;
 
-class PostController extends Controller
+use Illuminate\Http\Request;
+use App\Models\Room;
+use App\Http\Requests\RoomFormRequest;
+
+class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class PostController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Post::with('user')->get(),
-            'success' => true
+            'data' => Room::all(),
+            'success' => true,
         ]);
     }
 
@@ -28,12 +28,19 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostFormRequest $request)
+    public function store(RoomFormRequest $request)
     {
-        $post = Post::create($request->all());
-        broadcast(new NewPost($post));
+        $room = Room::create([
+            'name' => $request['name'],
+            'description' => $request['description'],
+        ]);
+        $users = collect(request('users'));
+        $users->push(auth()->user()->id);
+
+        $room->users()->attach($users);
+
         return response()->json([
-            'data' => $post,
+            'data' => $room,
             'success' => true
         ]);
     }
@@ -46,9 +53,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        $room = Room::find($id);
         return response()->json([
-            'data' => Post::find($id),
-            'success' => true
+            'data' => $room,
+            'success' => true,
         ]);
     }
 
@@ -61,10 +69,10 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::find($id);
-        $post->update($request->all());
+        $room = Room::find($id);
+        $room->update($request->all());
         return response()->json([
-            'data' => $post,
+            'data' => $room,
             'success' => true
         ]);
     }
@@ -78,7 +86,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         return response()->json([
-            'data' => Post::destroy($id),
+            'data' => Room::destroy($id),
             'success' => true
         ]);
     }

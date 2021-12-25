@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LikedPost extends Model
+class Message extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,11 +12,13 @@ class LikedPost extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'post_id'
+        'message',
+        'room_id',
+        'user_id'
     ];
 
     /**
-     * Get the like that owns the user
+     * Get the message that owns the user
      */
     public function user()
     {
@@ -24,10 +26,10 @@ class LikedPost extends Model
     }
 
     /**
-     * Get the like that owns the post
+     * Get the message that owns the room
      */
-    public function post()
+    public function room()
     {
-        return $this->belongsTo('App\Models\Post');
+        return $this->belongsTo('App\Model\Room');
     }
 }
