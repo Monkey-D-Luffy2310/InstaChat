@@ -115,7 +115,6 @@ class CommentController extends Controller
     }
 
     public function getCommentByUser($user_id) {
-        //$comments = DB::table('comments')->where('user_id', $user_id)->get();
         $comments = Comment::with(['user', 'post'])->where('user_id', $user_id)->get();
         
         return response()->json([
