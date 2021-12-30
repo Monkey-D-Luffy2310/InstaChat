@@ -28,6 +28,7 @@ Route::get('/users/{id}', 'UserController@show');
 //post api
 Route::get('/posts', 'PostController@index');
 Route::get('/posts/{id}', 'PostController@show');
+Route::get('/posts/user/{user_id}', 'PostController@getPostByUser');
 
 //like post api
 Route::get('/liked_post', "LikedPostController@index");

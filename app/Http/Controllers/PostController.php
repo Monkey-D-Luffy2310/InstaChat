@@ -87,4 +87,13 @@ class PostController extends Controller
             'success' => true
         ]);
     }
+
+    public function getPostByUser($user_id) {
+        $posts = Post::with(['user','comments', 'likes'])->where('user_id', $user_id)->get();
+
+        return response()->json([
+            'data' => $posts,
+            'success' => true,
+        ]);
+    }
 }
