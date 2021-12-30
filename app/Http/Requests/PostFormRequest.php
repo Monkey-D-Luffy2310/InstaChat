@@ -17,7 +17,6 @@ class PostFormRequest extends FormRequest
     {
         return [
             'content' => 'required',
-            'user_id' => 'required',
             'photoURL' => 'required',
         ];
     }

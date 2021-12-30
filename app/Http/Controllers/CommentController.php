@@ -37,6 +37,7 @@ class CommentController extends Controller
         ]);
 
         $comment = Comment::create($requestData);
+        $comment['user'] = auth()->user();
         return response()->json([
             'data' => $comment,
             'success' => true,

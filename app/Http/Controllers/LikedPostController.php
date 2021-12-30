@@ -15,7 +15,10 @@ class LikedPostController extends Controller
      */
     public function index()
     {
-        return LikedPost::all();
+        return response()->json([
+            'data' => LikedPost::all(),
+            'success' => true
+        ]);
     }
 
     /**
@@ -33,7 +36,12 @@ class LikedPostController extends Controller
             'post_id' => 'required'
         ]);
 
-        return LikedPost::create($requestData);
+        $like = LikedPost::create($requestData);
+        $like['user'] = auth()->user();
+        return response()->json([
+            'data' => $like,
+            'success' => true
+        ]);
     }
 
     /**
@@ -45,7 +53,7 @@ class LikedPostController extends Controller
     public function show($id)
     {
         $liked_post = LikedPost::find($id);
-        if ($liked_post) return $liked_post->post;
+        if ($liked_post) return $liked_post;
         return "Not found";
     }
 
