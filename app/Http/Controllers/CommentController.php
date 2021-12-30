@@ -36,7 +36,11 @@ class CommentController extends Controller
             'post_id' => 'required',
         ]);
 
-        return Comment::create($requestData);
+        $comment = Comment::create($requestData);
+        return response()->json([
+            'data' => $comment,
+            'success' => true,
+        ]);
     }
 
     /**
