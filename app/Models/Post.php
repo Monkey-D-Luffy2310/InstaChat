@@ -30,13 +30,13 @@ class Post extends Model
      */
     public function likes()
     {
-        return $this->hasMany('App\Models\LikedPost');
+        return $this->hasMany('App\Models\LikedPost')->with('user');
     }
 
     /**
     * Get the likes for the post
     */
     public function comments() {
-        return $this->hasMany('App\Models\Comment');
+        return $this->hasMany('App\Models\Comment')->with('user');
     }
 }
