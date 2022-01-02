@@ -36,6 +36,8 @@ class PostController extends Controller
         $requestData['user_id'] = $user_id;
         $post = Post::create($requestData);
         $post['user'] = auth()->user();
+        $post['comments'] = [];
+        $post['likes'] = [];
         broadcast(new NewPost($post))->toOthers();
         return response()->json([
             'data' => $post,
