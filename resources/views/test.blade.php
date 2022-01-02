@@ -74,8 +74,8 @@
                 cluster: "ap1",
             });
 
-            var channel = pusher.subscribe("rooms");
-            channel.bind("message", function(data) {
+            var channel = pusher.subscribe("post-notification");
+            channel.bind("post", function(data) {
                 alert(data);
                 console.log(data);
             });
