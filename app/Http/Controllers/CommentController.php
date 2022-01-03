@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Events\NewComment;
 
 class CommentController extends Controller
 {
@@ -38,6 +39,7 @@ class CommentController extends Controller
 
         $comment = Comment::create($requestData);
         $comment['user'] = auth()->user();
+        broadcast(new NewComment($comment))->toOthers();
         return response()->json([
             'data' => $comment,
             'success' => true,

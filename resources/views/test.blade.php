@@ -74,8 +74,8 @@
                 cluster: "ap1",
             });
 
-            var channel = pusher.subscribe("post-notification");
-            channel.bind("post", function(data) {
+            var channel = pusher.subscribe("dislike-notification");
+            channel.bind("dislike", function(data) {
                 alert(data);
                 console.log(data);
             });

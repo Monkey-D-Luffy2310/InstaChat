@@ -9,21 +9,22 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Post;
+use App\Models\LikedPost;
 
-class NewPost implements ShouldBroadcast
+class NewLike implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $post;
+    public $like;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Post $post)
+    public function __construct(LikedPost $like)
     {
-        $this->post = $post;
+        $this->like = $like;
     }
 
     /**
@@ -33,19 +34,19 @@ class NewPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('post-notification');
+        return new Channel('like-notification');
     }
 
     public function broadcastWith()
     {
         return [
-            'data' => $this->post->load('user', 'post'),
+            'data' => $this->like->load('user', 'post'),
             'success' => true
         ];
     }
 
     public function broadcastAs()
     {
-        return 'post';
+        return 'like';
     }
 }

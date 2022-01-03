@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LikedPost;
 use Illuminate\Support\Facades\DB;
+use App\Events\NewLike;
+use App\Events\DisLike;
+use App\Models\Post;
+use App\User;
 
 class LikedPostController extends Controller
 {
@@ -38,6 +42,7 @@ class LikedPostController extends Controller
 
         $like = LikedPost::create($requestData);
         $like['user'] = auth()->user();
+        broadcast(new NewLike($like));
         return response()->json([
             'data' => $like,
             'success' => true
@@ -66,12 +71,19 @@ class LikedPostController extends Controller
     public function destroy($post_id)
     {
         $user_id = auth()->user()->id;
-        $liked_post = DB::table('liked_posts')->where([
+        $liked_post = LikedPost::with(['user', 'post'])->where([
             ['user_id', $user_id],
             ['post_id', $post_id],
-        ])->delete();
+        ]);
+        if ($liked_post->first()) {
+            broadcast(new DisLike($liked_post->get()));
+            $liked_post->delete();
+        }
+        else return response()->json([
+            'data' => "Not exist like post",
+            'success' => false,
+        ]);
         return response()->json([
-            'data' => $liked_post,
             'success' => true,
         ]);
     }
