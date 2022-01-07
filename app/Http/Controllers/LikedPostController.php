@@ -42,7 +42,7 @@ class LikedPostController extends Controller
 
         $like = LikedPost::create($requestData);
         $like['user'] = auth()->user();
-        broadcast(new NewLike($like));
+        broadcast(new NewLike($like))->toOthers();
         return response()->json([
             'data' => $like,
             'success' => true
@@ -76,7 +76,7 @@ class LikedPostController extends Controller
             ['post_id', $post_id],
         ]);
         if ($liked_post->first()) {
-            broadcast(new DisLike($liked_post->get()));
+            broadcast(new DisLike($liked_post->get()))->toOthers();
             $liked_post->delete();
         }
         else return response()->json([
