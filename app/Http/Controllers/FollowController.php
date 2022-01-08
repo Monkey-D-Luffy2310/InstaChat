@@ -78,19 +78,27 @@ class FollowController extends Controller
     }
 
     public function getFollowedUser($user_id) {
-        $followed = Follow::with('user')->where('user_id', $user_id)->get();
+        $follow_users = Follow::with('followed_user')->where('user_id', $user_id)->get('followed_user_id');
 
+        $data = [];
+        foreach ($follow_users as $follow_user) {
+            array_push($data, $follow_user['followed_user']);
+        }
         return response()->json([
-            'data' => $followed,
+            'data' => $data,
             'success' => true
         ]);
     }
 
     public function getFollowed($followed_user_id) {
-        $followed = Follow::with('user')->where('followed_user_id', $followed_user_id)->get();
+        $follow_users = Follow::with('user')->where('followed_user_id', $followed_user_id)->get();
 
+        $data = [];
+        foreach ($follow_users as $follow_user) {
+            array_push($data, $follow_user['user']);
+        }
         return response()->json([
-            'data' => $followed,
+            'data' => $data,
             'success' => true
         ]);
     }
