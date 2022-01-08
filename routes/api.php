@@ -57,6 +57,8 @@ Route::get('/messages/room/{room_id}', 'MessageController@getMessageByRoom');
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //user api
     Route::get('/users', 'UserController@index');
+    Route::post('/reset-password', 'UserController@reset_password');
+    Route::put('/users/{id}', 'UserController@update');
 
     Route::post('/logout', 'AuthController@logout');
 

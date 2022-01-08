@@ -34,7 +34,7 @@ class AuthController extends Controller
         $user = User::where('username', $request['username'])->first();
         if (!$user || !Hash::check($request['password'], $user->password)) {
             return response()->json([
-                'username' => 'The provided credentials are incorrect.',
+                'error' => 'The provided credentials are incorrect.',
                 'success' => false
             ]);
         }
