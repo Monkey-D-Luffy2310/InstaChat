@@ -86,4 +86,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/messages', 'MessageController@store');
     Route::put('/messages/{id}', 'MessageController@update');
     Route::delete('/messages/{id}', 'MessageController@destroy');
+
+    //follow api
+    Route::post('/follow', 'FollowController@store');
+    Route::delete('/follow/{user_id}', 'FollowController@destroy');
+    Route::get('/follow/user/{user_id}', 'FollowController@getFollowedUser');
 });
