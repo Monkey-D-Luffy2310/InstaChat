@@ -85,4 +85,13 @@ class FollowController extends Controller
             'success' => true
         ]);
     }
+
+    public function getFollowed($followed_user_id) {
+        $followed = Follow::with('user')->where('followed_user_id', $followed_user_id)->get();
+
+        return response()->json([
+            'data' => $followed,
+            'success' => true
+        ]);
+    }
 }
