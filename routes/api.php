@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //like post api
     Route::post('/liked_post', "LikedPostController@store");
-    Route::delete('/liked_post/{post_id}', "LikedPostController@destroy");
+    Route::delete('/liked_post/{id}', "LikedPostController@destroy");
 
     //comment post api
     Route::post('/comments', 'CommentController@store');

@@ -26,8 +26,8 @@ class UserController extends Controller
 
     public function reset_password(Request $request) 
     {
-        $user = User::where('username', $request['username'])->first();
-        if (!$user || !Hash::check($request['oldPassword'], $user->password)) {
+        $user = auth()->user();
+        if (!Hash::check($request['oldPassword'], $user->password)) {
             return response()->json([
                 'error' => 'The provided credentials are incorrect.',
                 'success' => false
