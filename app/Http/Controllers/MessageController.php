@@ -24,7 +24,7 @@ class MessageController extends Controller
             'room_id' => 'required'
         ]);
         $message = Message::create($requestData);
-        broadcast(new MessageNotification($message));
+        broadcast(new MessageNotification($message))->toOthers();
         return response()->json([
             'data' => $message,
             'success' => true

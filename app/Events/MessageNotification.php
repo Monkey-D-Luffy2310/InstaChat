@@ -32,7 +32,7 @@ class MessageNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('rooms');
+        return new Channel('message-notification');
     }
 
     public function broadcastWith()
