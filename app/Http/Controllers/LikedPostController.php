@@ -68,10 +68,14 @@ class LikedPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($post_id)
     {
-        $liked_post = LikedPost::find($id);
-        if ($liked_post) {
+        $user_id = auth()->user()->id;
+        $liked_post = LikedPost::with(['user', 'post'])->where([
+            ['user_id', $user_id],
+            ['post_id', $post_id],
+        ]);
+        if ($liked_post->first()) {
             broadcast(new DisLike($liked_post->get()))->toOthers();
             $liked_post->delete();
         }

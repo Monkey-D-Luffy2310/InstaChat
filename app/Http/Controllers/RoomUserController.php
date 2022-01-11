@@ -18,9 +18,12 @@ class RoomUserController extends Controller
     {
         $user = User::find($user_id);
         if ($user) {
-            $room = $user->rooms;
+            $rooms = $user->rooms;
+            foreach($rooms as $room) {
+                $room['messages'] = $room->messages;
+            }
             return response()->json([
-                'data' => $room,
+                'data' => $rooms,
                 'success' => true,
             ]);
         }
